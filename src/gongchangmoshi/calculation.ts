@@ -1,3 +1,4 @@
+// 简单工厂模式
 class CalculateBase {
     public element_A: number = 0;
     public element_B: number = 0;
