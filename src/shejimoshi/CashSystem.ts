@@ -1,5 +1,24 @@
-// 策略模式
+let writeMode: Function = function (name: string): void {
+    console.log("***************" + name + "***************");
+}
+abstract class ConsoleActionBase {
+    total: number = 0;
+    cashTypes: string[] = ["正常收费", "满300返100", "打八折"];
+    messages: string[] = [];
 
+    public abstract ClickEvent(evt?: any): void;
+
+    protected randomCashType(): string {
+        let index: number = Math.floor(Math.random() * this.cashTypes.length);
+        return this.cashTypes[index];
+    }
+    protected randomCount(): number {
+        return Math.floor(Math.random() * 30);
+    }
+    protected randomPrice(): number {
+        return Math.floor(Math.random() * 100);
+    }
+}
 // 复习之前的简单工厂模式 1.0
 /**收费基类 */
 abstract class CashBase {
@@ -61,12 +80,7 @@ class CashFactory {
     }
 }
 /**客户端 */
-class ConsoleAction {
-
-    total: number = 0;
-    cashTypes: string[] = ["正常收费", "满300返100", "打八折"];
-    messages: string[] = [];
-
+class ConsoleAction extends ConsoleActionBase {
     ClickEvent(evt?: any): void {
         let type: string = this.randomCashType();
         let count: number = this.randomCount();
@@ -79,22 +93,107 @@ class ConsoleAction {
         console.log(this.messages.toString());
         console.log("当前总金额为：", this.total);
     }
-
-    private randomCashType(): string {
-        let index: number = Math.floor(Math.random() * this.cashTypes.length);
-        return this.cashTypes[index];
-    }
-    private randomCount(): number {
-        return Math.floor(Math.random() * 30);
-    }
-    private randomPrice(): number {
-        return Math.floor(Math.random() * 100);
-    }
 }
-
+writeMode("简单工厂模式");
 let con: ConsoleAction = new ConsoleAction();
 con.ClickEvent();
 con.ClickEvent();
 con.ClickEvent();
 con.ClickEvent();
 
+// 新的设计模式：策略模式
+/**上下文 */
+class Context {
+
+    private cash: CashBase;
+
+    constructor(cash: CashBase) {
+        this.cash = cash;
+    }
+    /**上下文接口 */
+    public contextInterface(money: number): number {
+        return this.cash.acceptCash(money);
+    }
+}
+/**策略模式客户端 */
+class RewriteConsoleAction extends ConsoleActionBase {
+    ClickEvent(evt?: any): void {
+        let count: number = this.randomCount();
+        let price: number = this.randomPrice();
+
+        let type: string = this.randomCashType();
+        let context: Context = null;
+        switch (type) {
+            case "正常收费":
+                context = new Context(new NormalCash());
+                break;
+            case "满300返100":
+                context = new Context(new ReturnCash(300, 100));
+                break;
+            case "打八折":
+                context = new Context(new RebateCash(0.8));
+                break;
+            default:
+                break;
+        }
+        let totalPrice: number = context.contextInterface(price * count);
+        this.total += totalPrice;
+        let message: string = '顾客购买某种商品' + " 单价：" + price + " 数量：" + count + " 收费类型：" + type + " 合计：" + totalPrice;
+        this.messages.push(message);
+        console.log(this.messages.toString());
+        console.log("当前总金额为：", this.total);
+    }
+}
+writeMode("策略模式");
+let rewriteCon: RewriteConsoleAction = new RewriteConsoleAction();
+rewriteCon.ClickEvent();
+rewriteCon.ClickEvent();
+rewriteCon.ClickEvent();
+rewriteCon.ClickEvent();
+
+// 客户端只负责显示  不负责算法  在客户端些算法是不可取的  简单工厂模式结合策略模式
+class RewriteContext {
+    private cash: CashBase = null;
+
+    constructor(type: string) {
+        let cash: CashBase = null;
+        switch (type) {
+            case "正常收费":
+                cash = new NormalCash();
+                break;
+            case "满300返100":
+                cash = new ReturnCash(300, 100);
+                break;
+            case "打八折":
+                cash = new RebateCash(0.8);
+                break;
+            default:
+                break;
+        }
+        this.cash = cash;
+    }
+    /**上下文接口 */
+    public contextInterface(money: number): number {
+        return this.cash.acceptCash(money);
+    }
+}
+class RerewriteConsoleAction extends ConsoleActionBase {
+    ClickEvent(evt?: any): void {
+        let count: number = this.randomCount();
+        let price: number = this.randomPrice();
+        let type: string = this.randomCashType();
+        let context: RewriteContext = new RewriteContext(type);
+        let totalPrice: number = context.contextInterface(count * price);
+        this.total += totalPrice;
+        let message: string = '顾客购买某种商品' + " 单价：" + price + " 数量：" + count + " 收费类型：" + type + " 合计：" + totalPrice;
+        this.messages.push(message);
+        console.log(this.messages.toString());
+        console.log("当前总金额为：", this.total);
+    }
+}
+writeMode("简单工厂-策略模式");
+let rerewriteCon: RerewriteConsoleAction = new RerewriteConsoleAction();
+rerewriteCon.ClickEvent();
+rerewriteCon.ClickEvent();
+rerewriteCon.ClickEvent();
+rerewriteCon.ClickEvent();
