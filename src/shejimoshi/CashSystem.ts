@@ -80,7 +80,7 @@ class CashFactory {
     }
 }
 /**客户端 */
-class ConsoleAction extends ConsoleActionBase {
+class ConsoleAction_CashSystem extends ConsoleActionBase {
     ClickEvent(evt?: any): void {
         let type: string = this.randomCashType();
         let count: number = this.randomCount();
@@ -95,7 +95,7 @@ class ConsoleAction extends ConsoleActionBase {
     }
 }
 writeMode("简单工厂模式");
-let con: ConsoleAction = new ConsoleAction();
+let con: ConsoleAction_CashSystem = new ConsoleAction_CashSystem();
 con.ClickEvent();
 con.ClickEvent();
 con.ClickEvent();
@@ -116,7 +116,7 @@ class Context {
     }
 }
 /**策略模式客户端 */
-class RewriteConsoleAction extends ConsoleActionBase {
+class RewriteConsoleAction_CashSystem extends ConsoleActionBase {
     ClickEvent(evt?: any): void {
         let count: number = this.randomCount();
         let price: number = this.randomPrice();
@@ -145,7 +145,7 @@ class RewriteConsoleAction extends ConsoleActionBase {
     }
 }
 writeMode("策略模式");
-let rewriteCon: RewriteConsoleAction = new RewriteConsoleAction();
+let rewriteCon: RewriteConsoleAction_CashSystem = new RewriteConsoleAction_CashSystem();
 rewriteCon.ClickEvent();
 rewriteCon.ClickEvent();
 rewriteCon.ClickEvent();
@@ -177,7 +177,7 @@ class RewriteContext {
         return this.cash.acceptCash(money);
     }
 }
-class RerewriteConsoleAction extends ConsoleActionBase {
+class RerewriteConsoleAction_CashSystem extends ConsoleActionBase {
     ClickEvent(evt?: any): void {
         let count: number = this.randomCount();
         let price: number = this.randomPrice();
@@ -192,7 +192,7 @@ class RerewriteConsoleAction extends ConsoleActionBase {
     }
 }
 writeMode("简单工厂-策略模式");
-let rerewriteCon: RerewriteConsoleAction = new RerewriteConsoleAction();
+let rerewriteCon: RerewriteConsoleAction_CashSystem = new RerewriteConsoleAction_CashSystem();
 rerewriteCon.ClickEvent();
 rerewriteCon.ClickEvent();
 rerewriteCon.ClickEvent();
