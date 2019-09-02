@@ -1,3 +1,5 @@
+import { basename } from "path";
+
 abstract class ClothesBase {
     abstract show(): void;
 }
@@ -80,3 +82,91 @@ class RewriteConsoleAction_Decorate {
 }
 // new RewriteConsoleAction_Decorate();
 
+// 装饰模式 Decorator
+class Person {
+    private name: string;
+    
+    public constructor();
+    public constructor(name: string);
+
+    public constructor(name?: string) {
+        this.name = name;
+    }
+    public show(): void {
+        console.log("装扮的%s", this.name);
+    }
+}
+class Finery extends Person {
+    protected component: Person;
+    // 打扮
+    public decorate(component: Person): void {
+        this.component = component;
+    }
+    public show(): void {
+        if (this.component)
+            this.component.show();
+    }
+}
+class ComponentTshirts extends Finery {
+    public show(): void {
+        console.log("大T恤");
+        super.show();
+    }
+}
+class ComponentBigTrouse extends Finery {
+    show(): void {
+        console.log("大裤衩");
+        super.show();
+    }
+}
+class ComponentBrokenSneakers extends Finery {
+    show(): void {
+        console.log("破球鞋");
+        super.show();
+    }
+}
+class ComponentSuit extends Finery {
+    show(): void {
+        console.log("西服");
+        super.show();
+    }
+}
+class ComponentNecktie extends Finery {
+    show(): void {
+        console.log("领带");
+        super.show();
+    }
+}
+class ComponentLeatherShoes extends Finery {
+    show(): void {
+        console.log("皮鞋");
+        super.show();
+    }
+}
+class RerewriteConsoleAction_Decorate {
+    constructor() {
+        this.init();
+    }
+
+    init(): void {
+        let person: Person = new Person("By Yang");
+        console.log("\n 第一种装扮");
+        let pgx: ComponentBrokenSneakers = new ComponentBrokenSneakers();
+        let kk: ComponentBigTrouse = new ComponentBigTrouse();
+        let dtx: ComponentTshirts = new ComponentTshirts();
+        pgx.decorate(person);
+        kk.decorate(pgx);
+        dtx.decorate(kk);
+        dtx.show();
+
+        console.log("\n 第二种装扮");
+        let px: ComponentLeatherShoes = new ComponentLeatherShoes();
+        let ld: ComponentNecktie = new ComponentNecktie();
+        let xz: ComponentSuit = new ComponentSuit();
+        px.decorate(person);
+        ld.decorate(px);
+        xz.decorate(ld);
+        xz.show();
+    }
+}
+new RerewriteConsoleAction_Decorate();
