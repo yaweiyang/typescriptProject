@@ -53,3 +53,5 @@ typescript (面向对象语言) 三大特性：封装、继承、多态
     深复制： 把引用对象的变量指向要复制的新对象，而不是原有的被引用的对象。
 
     参考： https://blog.csdn.net/chentony123/article/details/81428803
+第十章： 模板方法模式
+    
