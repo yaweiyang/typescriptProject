@@ -4,7 +4,8 @@
 // import "./shejimoshi/AgentSystem";
 // import "./shejimoshi/Factory";
 // import "./shejimoshi/Prototype";
-import "./shejimoshi/TemplateMehod";
+// import "./shejimoshi/TemplateMehod";
+import "./shejimoshi/Facade";
 
 let hello = "hello Typescript";
 document.getElementsByClassName("app")[0].innerHTML = hello;
