@@ -53,6 +53,7 @@ class ConsoleAction_Facade {
         // b.sell();
         // c.sell();
 
+        // 代理的存在使客户不用针对每一支股票 都创建购买和销售的方法
         let fund = new Fund();
         fund.buy();
         fund.sell();
